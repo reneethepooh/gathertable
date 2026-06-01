@@ -1,0 +1,137 @@
+[
+  {
+    "name": "Beatrice & Sons",
+    "cuisine": "italian",
+    "price_level": "$$",
+    "rating": 4.4,
+    "address": "21 E 17th St, New York, NY",
+    "distance_m": 120,
+    "attributes": ["vegetarian_options", "lively", "good_for_groups", "walkable"]
+  },
+  {
+    "name": "Hina Omakase",
+    "cuisine": "japanese",
+    "price_level": "$$$$",
+    "rating": 4.8,
+    "address": "12 W 22nd St, New York, NY",
+    "distance_m": 600,
+    "attributes": ["quiet", "intimate", "date_night"]
+  },
+  {
+    "name": "El Compadre",
+    "cuisine": "mexican",
+    "price_level": "$",
+    "rating": 4.2,
+    "address": "203 Ave A, New York, NY",
+    "distance_m": 950,
+    "attributes": ["lively", "casual", "vegetarian_options"]
+  },
+  {
+    "name": "Kati's Kitchen",
+    "cuisine": "thai",
+    "price_level": "$$",
+    "rating": 4.3,
+    "address": "60 Irving Pl, New York, NY",
+    "distance_m": 180,
+    "attributes": ["good_for_groups", "vegetarian_options", "walkable"]
+  },
+  {
+    "name": "Grand Bistro",
+    "cuisine": "french",
+    "price_level": "$$$",
+    "rating": 4.5,
+    "address": "405 W 49th St, New York, NY",
+    "distance_m": 3100,
+    "attributes": ["quiet", "romantic", "date_night"]
+  },
+  {
+    "name": "Tofu & Co.",
+    "cuisine": "vegan",
+    "price_level": "$$",
+    "rating": 4.1,
+    "address": "84 2nd Ave, New York, NY",
+    "distance_m": 780,
+    "attributes": ["vegetarian_options", "vegan_options", "quiet", "healthy"]
+  },
+  {
+    "name": "The Boilermaker",
+    "cuisine": "american",
+    "price_level": "$$",
+    "rating": 4.0,
+    "address": "112 Rivington St, New York, NY",
+    "distance_m": 1700,
+    "attributes": ["lively", "good_for_groups", "bar"]
+  },
+  {
+    "name": "Sakura Ramen",
+    "cuisine": "japanese",
+    "price_level": "$",
+    "rating": 4.3,
+    "address": "32 W 46th St, New York, NY",
+    "distance_m": 2400,
+    "attributes": ["casual", "lively", "quick"]
+  },
+  {
+    "name": "Casa Greca",
+    "cuisine": "greek",
+    "price_level": "$$",
+    "rating": 4.4,
+    "address": "33 Union Sq W, New York, NY",
+    "distance_m": 80,
+    "attributes": ["lively", "vegetarian_options", "good_for_groups", "walkable"]
+  },
+  {
+    "name": "Brasserie Sept",
+    "cuisine": "french",
+    "price_level": "$$$",
+    "rating": 4.6,
+    "address": "7 E 19th St, New York, NY",
+    "distance_m": 220,
+    "attributes": ["quiet", "romantic", "walkable", "date_night"]
+  },
+  {
+    "name": "Chico's Tacos",
+    "cuisine": "mexican",
+    "price_level": "$",
+    "rating": 4.0,
+    "address": "550 9th Ave, New York, NY",
+    "distance_m": 2900,
+    "attributes": ["casual", "takeout_friendly", "vegetarian_options"]
+  },
+  {
+    "name": "Verde",
+    "cuisine": "italian",
+    "price_level": "$$",
+    "rating": 4.5,
+    "address": "44 Irving Pl, New York, NY",
+    "distance_m": 260,
+    "attributes": ["lively", "vegetarian_options", "walkable", "good_for_groups"]
+  },
+  {
+    "name": "Khao Modern Thai",
+    "cuisine": "thai",
+    "price_level": "$$$",
+    "rating": 4.6,
+    "address": "12 W 21st St, New York, NY",
+    "distance_m": 560,
+    "attributes": ["quiet", "vegetarian_options", "date_night"]
+  },
+  {
+    "name": "The Steak Cellar",
+    "cuisine": "american steakhouse",
+    "price_level": "$$$$",
+    "rating": 4.7,
+    "address": "1221 6th Ave, New York, NY",
+    "distance_m": 3200,
+    "attributes": ["quiet", "romantic", "date_night"]
+  },
+  {
+    "name": "Bao Sister",
+    "cuisine": "taiwanese",
+    "price_level": "$$",
+    "rating": 4.4,
+    "address": "88 Orchard St, New York, NY",
+    "distance_m": 1900,
+    "attributes": ["lively", "good_for_groups", "vegetarian_options"]
+  }
+]
