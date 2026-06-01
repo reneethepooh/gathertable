@@ -17,7 +17,7 @@ Treat group preference conflict as constraint satisfaction.
 
 `must_satisfy` — HARD filters using these prefixes (the retrieval layer parses them):
 - "budget:$$"        max price cap; use the request's budget token exactly
-- "cuisine:italian"  substring match against candidate cuisine
+- "cuisine:italian"  for each entry in `cuisines_wanted` (substring match against candidate cuisine)
 - "dietary:vegetarian"  for each dietary restriction in the request
 - any bare string is treated as a required attribute tag (e.g. "good_for_groups", "walkable")
 
@@ -35,7 +35,11 @@ Treat group preference conflict as constraint satisfaction.
 Rules:
 - Do NOT invent a dietary restriction the user did not state.
 - Mirror the request's budget into `must_satisfy` exactly once as "budget:<token>".
+- Mirror every entry in `cuisines_wanted` into `must_satisfy` as "cuisine:<name>".
 - Mirror every dietary restriction into `must_satisfy` as "dietary:<name>".
+- Cuisine names go behind the `cuisine:` prefix — never as a bare string (a bare
+  string is treated as a required attribute tag, which is almost never what you want
+  for a cuisine).
 """
 
 

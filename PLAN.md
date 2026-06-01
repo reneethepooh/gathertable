@@ -211,6 +211,18 @@ requirements.txt
   consistency check that loops back into ranking. The live run upgraded the
   Critic from "nice-to-have stretch" to "next thing I'd ship."
 
+  A second live run — *"two people, quiet coffee in the East Village,
+  cheap"* — caught a different class of bug: the planning system prompt
+  described the `cuisine:` filter shape but never said "for each entry in
+  `cuisines_wanted`, emit one." The planner emitted bare `coffee`, which
+  MockProvider parsed as an attribute tag instead of a cuisine substring,
+  so the shortlist came back empty. Fixed with one line in the planning
+  prompt (mirror `cuisines_wanted` → `cuisine:<name>`, and an explicit
+  "cuisine names never go as bare strings" rule). Same lesson as the
+  consistency bug: live runs find what the test suite can't — the test
+  suite asserts the helper retries on `ValidationError`; it can't assert
+  that the prompt teaches the right vocabulary.
+
 - **Where I let Claude Code drive vs where I made the call:** Claude
   scaffolded the package, wrote the tests, drafted the prompts, and wrote
   most of this README. I owned the calls that shape the product: model
@@ -234,6 +246,11 @@ requirements.txt
   planner reconciles. Natural extension of the N-person engine.
 - **Calendar / timing integration** (when, not just where).
 - **Map view** of the shortlist.
+- **Expand mock dataset:** current 15 NYC entries are biased toward Union
+  Square / Flatiron with no coffee/café spots and no quiet East Village
+  entries — surfaced by an N=2 live run that returned an empty shortlist.
+  Add ~5 entries (cafés, East Village quiet spots, broader cuisine coverage)
+  so casual smoke-test prompts don't fall off the dataset.
 
 ---
 
