@@ -157,15 +157,71 @@ requirements.txt
 
 ---
 
-## 6. Decision log (fill this in as I build — this IS my interview script)
+## 6. Decision log (filled in as I built — this IS my interview script)
 
-- **Why multi-agent vs single agent?** Modularity + independently evaluable stages. Tradeoff: latency and token cost.
-- **Why typed contracts between agents instead of passing strings?** ...
-- **Why hand-written orchestrator instead of LangGraph?** ...
-- **Why abstract retrieval behind a swappable provider?** ...
-- **How I framed group preference conflict (constraint satisfaction):** ...
-- **How I evaluated quality:** ...
-- **Where I let Claude Code drive vs where I made the call:** ...
+- **Why multi-agent vs single agent?** Each stage has a different job: intake
+  normalizes free text, planning reasons about tradeoffs, ranking scores
+  candidates. Splitting them lets me write a short, focused prompt for each
+  and unit-test each one independently with a `FakeClient` fixture (no live
+  API in the test suite). The tradeoff is real — 3 API round-trips instead of
+  1, more tokens — and it would be the wrong call for a latency-sensitive
+  consumer flow. For this product, the legibility wins.
+
+- **Why typed contracts between agents instead of passing strings?** Pydantic
+  v2 models give me four things for free: (1) `model_json_schema()` is the
+  `input_schema` I hand to Anthropic's tool-use API, so I never write the
+  schema twice; (2) `ValidationError` is what I feed back to the model on the
+  one retry the structured-output helper allows, so the retry hint names the
+  exact bad field; (3) construction is the test fixture; (4) failure modes
+  are legible — if `weight` comes back as `1.5`, validation fails *here*, not
+  twelve lines deeper in ranking. The seams are the contracts.
+
+- **Why hand-written orchestrator instead of LangGraph?** The control flow is
+  straight-line — intake, then planning, then retrieve, then rank. There's
+  no graph. Hand-writing it keeps the dependency list to anthropic + pydantic
+  + rich, and the whole runner fits on one screen. If a real branching loop
+  shows up (the Critic agent, when it lands), I'll reconsider — but a
+  framework for four sequential calls is overhead I'd have to explain away.
+
+- **Why abstract retrieval behind a swappable provider?** The agents should
+  not know whether candidates come from a JSON file, Google, or Yelp. A one-
+  method `Provider` Protocol keeps the interface small (`search(plan) ->
+  list[Candidate]`), `MockProvider` keeps the demo deterministic and offline,
+  and swapping in a real API later is a constructor change. The
+  `must_satisfy` prefix convention (`budget:$$`, `cuisine:italian`,
+  `dietary:vegetarian`, bare tags) is the contract between planning and
+  retrieval; the planning prompt is what teaches the model to emit it.
+
+- **How I framed group preference conflict (constraint satisfaction):** Hard
+  constraints become `must_satisfy` filters that retrieval enforces verbatim;
+  soft preferences become weighted `ranking_criteria`; every tradeoff the
+  planner makes lands in `conflict_resolutions` as a one-liner ("Group has a
+  vegetarian, so we prioritized vegetarian_options over the steakhouse
+  niche"). That trail is what makes the recommendation auditable instead of
+  just an opinionated black box.
+
+- **How I evaluated quality:** Offline — 23 unit tests covering contracts,
+  the MockProvider filter convention, all three agents with a `FakeClient`,
+  and the orchestrator end-to-end. Online — manual CLI runs against the
+  canonical PLAN prompt. The first live run surfaced a real bug: rationale
+  #1 framed 260m as "slightly further" while rationale #2 framed 80m's edge
+  as "minimal" — internally inconsistent reasoning across picks. The
+  ranking prompt produces each rec without seeing its siblings' rationales.
+  This is exactly what the Critic agent (§5 stretch) is for: a cross-pick
+  consistency check that loops back into ranking. The live run upgraded the
+  Critic from "nice-to-have stretch" to "next thing I'd ship."
+
+- **Where I let Claude Code drive vs where I made the call:** Claude
+  scaffolded the package, wrote the tests, drafted the prompts, and wrote
+  most of this README. I owned the calls that shape the product: model
+  choice (Haiku 4.5 — these tasks don't need Opus, and it's cheaper/faster
+  with no quality cliff for structured output); the `must_satisfy` prefix
+  convention (so planning and retrieval share a vocabulary without a
+  translator stage); refactoring the shortlist layout from one wide table to
+  a compact comparison table plus per-pick rationale panels (the in-table
+  rationale wrapped character-by-character in narrow terminals); and
+  stopping after every commit for review rather than letting Claude run the
+  whole MVP unsupervised.
 
 ---
 
